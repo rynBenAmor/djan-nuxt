@@ -1,16 +1,46 @@
 # tasks_htmx/views.py
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
 from .models import Task, Message, Post
 from .forms import MessageForm, PostForm
 from django.http import HttpResponse
 from django.template.loader import render_to_string
-from django.views.decorators.csrf import csrf_exempt
 from django.utils.safestring import mark_safe
 from django.utils.html import escape
+from django.contrib.auth import get_user_model
+
+
 
 
 def index(request):
     return render(request, 'htmx/index.html')
+
+
+
+
+def user_info(request):
+    if request.htmx:
+        if request.user.is_authenticated:
+            return HttpResponse(request.user.username)
+        else:
+            return HttpResponse('<span class="text-danger">Not logged in</span>')
+    return HttpResponse(status=400)
+
+
+def add_favorite(request):
+    if request.method == "POST" and request.htmx:
+        # Here you would add the favorite to the DB
+        return HttpResponse(
+            '<span class="text-success" _="on load add .pulse then wait 1s then remove .pulse">Added to favorites! <i class="fas fa-heart"></i></span>'
+        )
+    return HttpResponse(status=400)
+
+def mark_read(request):
+    if request.method == "POST" and request.htmx:
+        # Logic to mark the notification as read
+        return HttpResponse(
+            '<span class="text-muted" _="on load add .fade-in then wait 1s then remove .fade-in">Marked as read <i class="fas fa-check-circle"></i></span>'
+        )
+    return HttpResponse(status=400)
 
 
 # 🌟 Display all tasks

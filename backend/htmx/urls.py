@@ -25,4 +25,9 @@ urlpatterns = [
     path('post/search/', views.post_search, name='post_search'),
     path('post/create/', views.post_create, name='post_create'),
 
+    path('user/me/info/', views.user_info, name='user_info'),
+
+    path('add-favorite/', views.add_favorite, name='add_favorite'),
+    path('mark-read/', views.mark_read, name='mark_read'),
+
 ]

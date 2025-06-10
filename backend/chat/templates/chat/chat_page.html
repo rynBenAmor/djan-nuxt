@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
 
-
+{% block extra_head %}
+<style>
+    /* Customize the chat box height */
+    .chat-box {
+        height: 400px;
+        overflow-y: scroll;
+        margin-bottom: 10px;
+    }
+</style>
+{% endblock extra_head %}
 
 {% block content %}
 <div class="container py-4">
@@ -24,15 +33,22 @@
 
 
 
+
+
+
+{% endblock content %}
+
+
+{% block extra_js %}
 <script>
     const chatSocket = new WebSocket('ws://127.0.0.1:8000/ws/chat/');
-chatSocket.onopen = () => { console.log("WebSocket connection established!"); };
-chatSocket.onerror = (err) => { console.error("WebSocket error:", err); };
-chatSocket.onclose = () => { console.log("WebSocket connection closed!"); };
+    chatSocket.onopen = () => { console.log("WebSocket connection established!"); };
+    chatSocket.onerror = (err) => { console.error("WebSocket error:", err); };
+    chatSocket.onclose = () => { console.log("WebSocket connection closed!"); };
 
 
     // Handle incoming messages from WebSocket
-    chatSocket.onmessage = function(e) {
+    chatSocket.onmessage = function (e) {
         const data = JSON.parse(e.data);
         const message = data['message'];
 
@@ -43,10 +59,10 @@ chatSocket.onclose = () => { console.log("WebSocket connection closed!"); };
     };
 
     // Send message when user clicks send button
-    document.getElementById('send-btn').onclick = function() {
+    document.getElementById('send-btn').onclick = function () {
         const messageInputDom = document.getElementById('message-input');
         const message = messageInputDom.value;
-        
+
         // Send message to WebSocket
         chatSocket.send(JSON.stringify({ 'message': message }));
 
@@ -55,19 +71,10 @@ chatSocket.onclose = () => { console.log("WebSocket connection closed!"); };
     };
 
     // Optional: send message on Enter key press
-    document.getElementById('message-input').onkeypress = function(e) {
+    document.getElementById('message-input').onkeypress = function (e) {
         if (e.key === 'Enter') {
             document.getElementById('send-btn').click();
         }
     };
 </script>
-
-<style>
-    /* Customize the chat box height */
-    .chat-box {
-        height: 400px;
-        overflow-y: scroll;
-        margin-bottom: 10px;
-    }
-</style>
-{% endblock content %}
+{% endblock extra_js %}

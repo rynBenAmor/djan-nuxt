@@ -8,6 +8,47 @@
     htmx - index
 {% endblock title %}
 
+
+{% block extra_head %}
+    <style>
+    .pulse {
+        animation: pulse 1s ease;
+    }
+    .fade-out{
+        animation: fade-out 1s ease;
+    }
+    .fade-in{
+        animation: fade-in 1s ease;
+    }
+    @keyframes pulse {
+        0% { transform: scale(1);}
+        50% { transform: scale(1.2);}
+        100% { transform: scale(1);}
+    }
+
+    @keyframes fade-out{
+        0%{
+            opacity: 1;
+        }
+        100%{
+            opacity: 0;
+        }
+    }
+    @keyframes fade-in{
+        0%{
+            opacity: 0;
+        }
+        100%{
+            opacity: 1;
+        }
+    }
+
+    </style>
+
+    <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
+{% endblock extra_head %}
+
+
 {% block content %}
 
 <div class="container my-5">
@@ -108,7 +149,7 @@
                     <p class="card-text">Click to fetch and swap partial HTML with confirmation and custom headers.</p>
                     <div id="message-container">
                         <button 
-                            hx-get="{% url 'htmx:toggle_message' %}" 
+                            hx-get="{% url 'htmx:user_info' %}" 
                             hx-target="#message-container"
                             hx-swap="innerHTML"
                             hx-trigger="click"
@@ -122,7 +163,84 @@
             </div>
         </div>
 
+        <!-- Retrieve User Info Example -->
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-3">Who am I? 
+                        
+                        <span id="id_username_result" class="text-success fw-bolder">
+                            <!--result here-->
+                        </span>
+                    </h5>
+                    <form
+                        hx-post="{% url 'htmx:user_info' %}" 
+                        hx-swap="innerHTML"
+                        hx-trigger="revealed"
+                        hx-target="#id_username_result"
+                        hx-indicator="#id_username_spinner"
+                    >
+                        <p class="lead">fetch user username when div is revealed</p>
+                        <div 
+                            id="id_username_spinner" 
+                            class="spinner-border text-primary htmx-indicator" 
+                            role="status" 
+                            style="width: 2rem; height: 2rem;"
+                        >
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        <!--hyper script example-->
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-title text-center h5">
+                    HTMX + _hyperscript_ Examples
+                </div>
+
+                <!--1st example-->
+                <div class="card-body text-center">
+        
+                    <div id="favorite-container" class="mt-4">
+                        <button class="btn btn-danger" hx-post="{% url 'htmx:add_favorite' %}" hx-target="#favorite-container"
+                            hx-swap="outerHTML" _="on click                                 
+                                        if result is false halt
+                                        add .pulse to me
+                                        wait 300ms
+                                        remove .pulse from me
+                                    ">
+                            <i class="fas fa-heart"></i> Add to Favorites
+                        </button>
+                    </div>
+                </div>
+                <!--2nd example-->
+                <div class="card-body text-center">
+                    <h5 class="card-title">New Message</h5>
+                    <p class="card-text">You have a new message from Admin.</p>
+        
+                    <div id="notification-container">
+                        <button class="btn btn-primary" hx-post="{% url 'htmx:mark_read' %}" hx-target="#notification-container"
+                            hx-swap="outerHTML" _="on click 
+                                        add .fade-out to me
+                                        wait 300ms
+                                        remove .fade-out from me">
+                            <i class="fas fa-envelope-open-text"></i> Mark as Read
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
     </div>
 </div>
 
 {% endblock content %}
+
+
