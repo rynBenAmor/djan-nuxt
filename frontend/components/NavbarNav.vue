@@ -14,6 +14,9 @@
                     <NuxtLink class="nav-link" to="/blog">Blog</NuxtLink>
                 </li>
                 <li class="nav-item">
+                    <NuxtLink class="nav-link" to="/profile">Profile</NuxtLink>
+                </li>
+                <li class="nav-item">
                     <NuxtLink v-if="!user" class="nav-link" to="/login">Login</NuxtLink>
                     <span v-else class="nav-link">👤 {{ user.username }}</span>
                 </li>
@@ -30,6 +33,7 @@ import { BACKEND_URL } from "./config";
 
 export default {
     name: 'NavbarNav',
+    layout: 'defaultLayout',
     data() {
         return {
             user: null,
@@ -58,3 +62,13 @@ export default {
     },
 };
 </script>
+
+
+
+<style scoped>
+.router-link-active, .router-link-exact-active{
+    color: rgb(34, 136, 252);
+    font-weight: bold;
+    text-decoration: underline;
+}
+</style>c

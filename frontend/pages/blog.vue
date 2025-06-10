@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-5">
+    <div class="container">
         <h1 class="mb-4 text-light display-1"> <i class="bi bi-android2"></i> Nuxt Blog <br> with Django <br> TL;DR</h1>
 
         <!-- Form to Create a Post -->

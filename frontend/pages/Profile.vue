@@ -43,7 +43,7 @@ onMounted(fetchProfiles);
 
 
 <template>
-    <div class="container mt-5">
+    <div class="container p-5">
       <h1 class="text-primary">🌍 User Profiles</h1>
   
    

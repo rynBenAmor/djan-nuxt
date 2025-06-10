@@ -1,20 +1,9 @@
 <template>
+    <!--app.vue is unnecessary altogether if layouts/default.vue is used, 
+    but i chose to keep it for a trad codebase-->
 
-    <navbar-nav/>
-
-    <main class="container-fluid py-5 bg-black overflow-x-hidden" style="min-height: 100vh; width: 100%;">
-      <NuxtPage />
-    </main>
-
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
 
 </template>
-
-
-<script>
-import NavbarNav from './components/NavbarNav.vue';
-
-
-export default{
-  components : {NavbarNav}
-}
-</script>

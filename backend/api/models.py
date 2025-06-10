@@ -1,5 +1,18 @@
 from django.db import models
 from tinymce.models import HTMLField
+from textblob import TextBlob  # AI Sentiment Analysis
+"""
+from textblob import TextBlob
+
+text = "TextBlob is a great library for NLP."
+blob = TextBlob(text)
+
+print(f"Sentiment: {blob.sentiment}")
+print(f"Part-of-speech tags: {blob.tags}")
+print(f"Words: {blob.words}")
+print(f"Corrected spelling: {TextBlob('I havv goood speling!').correct()}")
+
+"""
 
 class Message(models.Model):
     title = models.CharField(max_length=255)
@@ -7,9 +20,6 @@ class Message(models.Model):
     content = HTMLField(blank=True, null=True)
     
 
-
-
-from textblob import TextBlob  # AI Sentiment Analysis
 
 class Comment(models.Model):
     text = models.TextField()
@@ -47,7 +57,6 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.name} from {self.city}"
-
 
 
 

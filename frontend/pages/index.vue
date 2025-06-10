@@ -23,7 +23,7 @@
 </script>
 
 <template>
-    <div class="container mt-5">
+    <div class="container">
         <Counter></Counter>
         <h1 class="text-primary">💬 Real-Time Comments</h1>
 

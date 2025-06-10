@@ -32,7 +32,7 @@ const uploadImage = async () => {
 </script>
 
 <template>
-  <div class="container mt-5">
+  <div class="container">
     <h1 class="text-primary text-center">img auto caption</h1>
 
     <div class="card shadow-sm p-4">
