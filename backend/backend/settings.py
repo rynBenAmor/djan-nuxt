@@ -128,12 +128,12 @@ TEMPLATES = [
     },
 ]
 
-#run this command : daphne -b 0.0.0.0 -p 8000 mybackend.asgi:application and redis
+#run this command : daphne backend.asgi:application
 ASGI_APPLICATION = 'backend.asgi.application'
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
-# Channel layer (in-memory for dev)
+# Channel layer (in-memory for dev, can use redis)
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels.layers.InMemoryChannelLayer"
