@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+
+        {% for book in books %}
+        <div class="col-12 col-md-4">
+            <div class="card overflow-hidden" style="width: 18rem;">
+                <img src="https://dummyimage.com/600x400/000/fff" class="card-img-top object-fit-contain" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{ book.title }}</h5>
+                    <p class="card-text">{{ book.description|truncatewords:10 }}</p>
+                    <!--using js-->
+                    <span id="stock-js-{{ book.id }}" class="badge text-bg-warning fw-bold"
+                        data-book-id="{{ book.id }}">
+                        {{ book.quantity }}
+                    </span>
+                    <!--using sse-->
+                    <span id="stock-sse-{{ book.id }}" class="badge text-bg-success fw-bold"
+                        data-book-id="{{ book.id }}">
+                        {{ book.quantity }}
+                    </span>
+                    <a href="#" class="btn btn-primary disabled text-uppercase">details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+
+    </div>
+</div>
+{% endblock content %}
+
+
+
+{% block extra_js %}
+<script src="{% static 'book-quantity-sse.js' %}"></script>
+<script src="{% static 'book-quantity-fetch.js' %}"></script>
+
+
+{% endblock extra_js %}

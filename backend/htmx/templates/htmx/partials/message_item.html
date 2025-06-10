@@ -1,0 +1,12 @@
+<!-- Iterable Message Component -->
+<div class="col-12 my-2">
+    <div class="card shadow-sm border border-2">
+        <div class="card-header bg-dark text-light d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">{{ m.title|capfirst }}</h5>
+            <small class="text-muted">{{ m.created_at|date:"Y M d" }} | {{ m.created_at|timesince }} </small>
+        </div>
+        <div class="card-body">
+            <p class="mb-0">{{ m.content|safe|truncatechars_html:100 }}</p> {# Use |safe to render HTML correctly #}
+        </div>
+    </div>
+</div>

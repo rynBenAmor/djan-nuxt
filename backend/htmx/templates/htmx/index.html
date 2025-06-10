@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block extra_meta %}
+    <meta name="description" content="INDEX META">
+{% endblock extra_meta %}
+
+{% block title %}
+    htmx - index
+{% endblock title %}
+
+{% block content %}
+
+<div class="container my-5">
+    <h1 class="text-center mb-5">HTMX Demo Examples</h1>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+
+        <!-- Task List Example -->
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Task List</h5>
+                    <p class="card-text">Load the task list dynamically and swap the entire page content.</p>
+                    <button 
+                        hx-get="{% url 'htmx:task_list' %}"
+                        hx-push-url="true" 
+                        hx-target="body"
+                        hx-swap="innerHTML"
+                        class="btn btn-primary">
+                        Show Task List
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Message List Example -->
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Message List</h5>
+                    <p class="card-text">Fetch and display the message list, replacing the page content.</p>
+                    <button 
+                        hx-get="{% url 'htmx:message_list' %}"
+                        hx-push-url="true" 
+                        hx-target="body"
+                        hx-swap="innerHTML"
+                        class="btn btn-primary">
+                        Show Message List
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Like Button Example -->
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Like Button Example</h5>
+                    <p class="card-text">Navigate to a page demonstrating a like button with HTMX.</p>
+                    <a href="{% url 'htmx:post_list' %}" class="btn btn-lg btn-primary">Go to Like Button Example</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Public Record Example -->
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Public Record Lookup</h5>
+                    <p class="card-text">Fetch a public record by ID using HTMX and display the result below.</p>
+                    <form id="PR-form" class="mb-3" method="GET" 
+                        hx-get="{% url 'htmx:get_pr' %}?prid=99" 
+                        hx-target="#PR-container"
+                        hx-push-url="false">
+                        <button id="PR-button" class="btn btn-dark" data-prId="99" type="submit">Show Record</button>
+                    </form>
+                    <div id="PR-container" class="text-center"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Greetings Example -->
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Greetings (CSRF Example)</h5>
+                    <p class="card-text">Send a POST request with CSRF protection and see alerts before and after.</p>
+                    <form>
+                        {% csrf_token %}
+                        <button 
+                            hx-post="{% url 'htmx:greetings' %}" 
+                            hx-swap="innerHTML"
+                            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                            hx-on:htmx:before-request="alert('Making a request!')"
+                            hx-on:htmx:after-request="alert('Done making a request!')"
+                            class="btn btn-primary">
+                            Send Greeting
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Partial HTML Example -->
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Partial HTML Swap</h5>
+                    <p class="card-text">Click to fetch and swap partial HTML with confirmation and custom headers.</p>
+                    <div id="message-container">
+                        <button 
+                            hx-get="{% url 'htmx:toggle_message' %}" 
+                            hx-target="#message-container"
+                            hx-swap="innerHTML"
+                            hx-trigger="click"
+                            hx-confirm="are you sure?"
+                            hx-headers='{"Accept": "text/html"}'
+                            class="btn btn-primary">
+                            Click for Partial HTML!
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock content %}

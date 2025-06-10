@@ -1,0 +1,50 @@
+<!--htmx/task_list.html-->
+{% extends 'base.html' %}
+
+{% block title %}
+    htmx - task list
+{% endblock title %}
+
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">HTMX Django Tasks</h2>
+    <button         
+        hx-get="{% url 'htmx:index' %}" 
+        hx-target="body" 
+        hx-swap="innerHTML"
+        hx-push-url="true"
+        class="btn btn-secondary" 
+        >
+            SPA behaviour button
+    </button>
+      
+    <!-- Add Task Form -->     
+    <form method="POST"     
+        hx-post="{% url 'htmx:add_task' %}" 
+        hx-target="#task-list" 
+        hx-swap="beforeend"     
+        hx-boost="true"
+        class="d-flex mb-3">
+        {% csrf_token %}
+        <input type="text" name="title" class="form-control me-2" placeholder="New Task" required>
+        <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+
+    <!-- Task List -->
+    <ul id="task-list" class="list-group">
+        {% for task in tasks %}
+            {% include 'htmx/partials/task_item.html' %}
+        {% endfor %}
+    </ul>
+</div>
+{% endblock content %}
+
+
+
+{% block extra_js %}
+    <script src="https://unpkg.com/htmx.org@2.0.4"
+        integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/htmx-ext-debug@2.0.0/debug.js"></script>
+{% endblock extra_js %}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    {% block extra_meta %}
+      <meta name="description" content="BASE META">
+    {% endblock extra_meta %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <title>{% block title %}{% endblock title %}</title>   
+
+     
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    {% block extra_head %}
+        
+    {% endblock extra_head %}
+    
+</head>
+
+<body class="overflow-x-hidden" 
+      hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' 
+      hx-ext="head-support" 
+      hx-boost="false">
+
+    {% include 'includes/navbar.html' %}
+    
+    {% block content %}
+        
+    {% endblock content %}
+
+
+
+    <script src="{% static 'htmx.min.js' %}"></script>
+    <script src="{% static 'htmx.extra.head-support.2.0.2.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    {% block extra_js %}
+        
+    {% endblock extra_js %}
+</body>
+</html>

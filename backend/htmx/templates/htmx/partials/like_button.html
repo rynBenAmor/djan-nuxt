@@ -1,0 +1,10 @@
+<!-- This will be swapped in dynamically -->
+<button 
+    hx-post="{% url 'htmx:post_like' post.id %}" 
+    hx-target="#like-btn-{{ post.id }}" 
+    hx-swap="innerHTML" 
+    hx-trigger="mouseenter"
+
+    class="btn btn-primary">
+    👍 Like ({{ post.likes }})
+</button>

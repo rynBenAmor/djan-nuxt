@@ -1,0 +1,12 @@
+<div id="message-container">
+    <p>You received an HTML response! Click below to get text.</p>
+    <button 
+        hx-get="{% url 'htmx:toggle_message' %}" 
+        hx-target="#message-container"
+        hx-swap="innerHTML"
+        hx-trigger="click"
+        hx-headers='{"Accept": "text/plain"}'
+        class="btn btn-success">
+        Click for Plain Text
+    </button>
+</div>

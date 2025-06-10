@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block extra_meta %}
+  <meta name="description" content="POST META">
+{% endblock extra_meta %}
+
+{% block title %}
+  post list
+{% endblock title %}
+
+{% block extra_head %}
+  <style>
+    body { background: rgb(0, 0, 255) !important ; }
+  </style>
+
+  <style>
+    /*loader hidden initially and shown during request*/
+    .search-indicator{
+      display: none;
+    }
+    .htmx-request .search-indicator{
+      display: inline;
+    }
+    .htmx-request.search-indicator{
+      display: inline;
+    }
+  </style>
+{% endblock extra_head %}
+
+
+
+{% block content %}
+
+
+<div class="container">
+  <div class="row my-2">
+    <div class="col-md-6">
+        <input type="search" name="query" placeholder="Search by title..." class="form-control form-control-lg search-group"
+        hx-get="{% url 'htmx:post_search' %}" 
+        hx-trigger="input changed delay:500ms" 
+        hx-target="#search-results"
+        hx-indicator=".search-indicator"
+        >
+
+        <ul class="list-group" id="search-results"></ul>
+        
+        <!--loader-->
+        <ul class="search-indicator list-group">
+          <li class="list-group-item">
+            <div class="spinner-border text-primary">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </li>
+        
+        </ul>
+
+    </div>
+  </div>
+
+  <div class="row">
+      {% for post in posts %}
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5>{{ post.title }}</h5>
+    
+          <div id="like-btn-{{ post.id }}">
+            {% include "htmx/partials/like_button.html" with post=post %}
+          </div>
+    
+        </div>
+      </div>
+      {% empty %}
+      <h1>no posts</h1>
+    {% endfor %}
+    
+
+  </div>
+
+  <div class="row">
+    <!-- errors area -->
+    <div id="form-messages" class="mt-2"></div>
+    <!--form-->
+    <form hx-post="{% url 'htmx:post_create' %}" 
+          hx-target="#form-messages"  
+          hx-swap="innerHTML">
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary">Create</button>
+
+    </form>
+  </div>
+
+</div>
+    
+{% endblock content %}
+
+

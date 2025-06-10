@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-comments fs-3"></i>
+                </div>
+                <div class="card-body chat-box" id="chat-box">
+                    <!-- Messages will be displayed here -->
+                </div>
+                <div class="card-footer">
+                    <input type="text" id="message-input" class="form-control" placeholder="Type your message...">
+                    <button id="send-btn" class="btn btn-primary mt-2"><i class="fas fa-paper-plane"></i> Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    const chatSocket = new WebSocket('ws://127.0.0.1:8000/ws/chat/');
+chatSocket.onopen = () => { console.log("WebSocket connection established!"); };
+chatSocket.onerror = (err) => { console.error("WebSocket error:", err); };
+chatSocket.onclose = () => { console.log("WebSocket connection closed!"); };
+
+
+    // Handle incoming messages from WebSocket
+    chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        const message = data['message'];
+
+        // Display the message
+        const messageDiv = document.createElement('div');
+        messageDiv.textContent = message;
+        document.getElementById('chat-box').appendChild(messageDiv);
+    };
+
+    // Send message when user clicks send button
+    document.getElementById('send-btn').onclick = function() {
+        const messageInputDom = document.getElementById('message-input');
+        const message = messageInputDom.value;
+        
+        // Send message to WebSocket
+        chatSocket.send(JSON.stringify({ 'message': message }));
+
+        // Clear the input field
+        messageInputDom.value = '';
+    };
+
+    // Optional: send message on Enter key press
+    document.getElementById('message-input').onkeypress = function(e) {
+        if (e.key === 'Enter') {
+            document.getElementById('send-btn').click();
+        }
+    };
+</script>
+
+<style>
+    /* Customize the chat box height */
+    .chat-box {
+        height: 400px;
+        overflow-y: scroll;
+        margin-bottom: 10px;
+    }
+</style>
+{% endblock content %}

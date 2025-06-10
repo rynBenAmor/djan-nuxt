@@ -1,0 +1,8 @@
+{% for field in form %}
+  <div class="mb-3 {% if field.errors %}has-error{% endif %}">
+    
+    {% for error in field.errors %}
+      <div class="invalid-feedback d-block">{{ field.label_tag }}: {{ error }}</div>
+    {% endfor %}
+  </div>
+{% endfor %}
